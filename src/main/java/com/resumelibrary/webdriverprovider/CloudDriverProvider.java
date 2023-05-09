@@ -106,7 +106,7 @@ public class CloudDriverProvider extends WebDriverProvider implements Constants 
             ltOptions.put("resolution", "1920x1080");
             ltOptions.put("network", false);
            ltOptions.put("tunnel", true);
-            ltOptions.put("idleTiemout","1800");
+            ltOptions.put("idleTiemout","600");
             caps.setCapability("LT:Options", ltOptions);
             //caps.setCapability("tunnelName", "SharedTunnel");
             threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
