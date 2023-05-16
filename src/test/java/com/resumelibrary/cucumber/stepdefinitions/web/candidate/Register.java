@@ -14,6 +14,10 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 
 public class Register extends Utility {
+    
+    ClientPage cp = new ClientPage();
+    RegistrationPage rp = new RegistrationPage();
+    
     public  String emailAddress = null;
     public static String clientEmailAddress, clientEmailAddress1, clientEmailAddress2,
             clientEmailAddress3, clientEmailAddress4, clientEmailAddress5 = null;
@@ -51,7 +55,7 @@ public class Register extends Utility {
         iEnterFirstName(DataHelper.getCandidateFirstName());
         iEnterLastName(DataHelper.getLastName());
         iEnterPassword(DataHelper.getPassword());
-        new ClientPage().enterCompanyName(DataHelper.getClientCompanyName());
+        cp.enterCompanyName(DataHelper.getClientCompanyName());
         iEnterPhoneNumber(DataHelper.getClientPhoneNUmber());
         new com.resumelibrary.webtest.client.RegistrationPage().clickOnEnterAddressManuallyLink();
         new com.resumelibrary.webtest.client.RegistrationPage().enterAddress1(DataHelper.getClientAddress());
@@ -59,7 +63,7 @@ public class Register extends Utility {
         new com.resumelibrary.webtest.client.OthersPage().enterState(DataHelper.getClientState());
         iEnterZipCode(DataHelper.getClientZipCode());
         new com.resumelibrary.webtest.client.RegistrationPage().selectRecruiterType(DataHelper.getClientRecruiterType());
-        new ClientPage().clickOnSubmitInquiry();
+        cp.clickOnSubmitInquiry();
         waitUntil(WebURLHelper.getClientAccountUrl());
     }
 
@@ -67,14 +71,14 @@ public class Register extends Utility {
     public void iEnterEmailAddress(String email) {
         email = getRandomString(7) + email;
         emailAddress = email;
-        new RegistrationPage().enterEmailAddress(emailAddress);
+        rp.enterEmailAddress(emailAddress);
     }
 
     @When("I enter client email address {string}")
     public void iEnterClientEmailAddress(String email) {
         String runnerName = getRunnerName();
         email = getRandomString(7) + "1" + email;
-        new RegistrationPage().enterEmailAddress(email);
+        rp.enterEmailAddress(email);
         setRandomEmail(email);
 
     }
@@ -86,77 +90,77 @@ public class Register extends Utility {
 
     @And("I enter first name {string}")
     public void iEnterFirstName(String firstName) {
-        new RegistrationPage().enterFirstName(firstName);
+        rp.enterFirstName(firstName);
     }
 
     @And("I enter last name {string}")
     public void iEnterLastName(String lastName) {
-        new RegistrationPage().enterLastName(lastName);
+        rp.enterLastName(lastName);
     }
 
     @And("I enter password {string}")
     public void iEnterPassword(String password) {
-        new RegistrationPage().enterPassword(password);
+        rp.enterPassword(password);
     }
 
     @And("I enter latest job title {string}")
     public void iEnterLatestJobTitle(String title) {
-        new RegistrationPage().enterJobTitle(title);
+        rp.enterJobTitle(title);
     }
 
     @And("I enter zip code {string}")
     public void iEnterZipCode(String zipcode) {
-        new RegistrationPage().enterZipcode(zipcode);
+        rp.enterZipcode(zipcode);
     }
 
     @And("I click on register button")
     public void iClickOnRegisterButton() {
-        new RegistrationPage().clickOnRegisterButton();
+        rp.clickOnRegisterButton();
     }
 
     public void iClickOnResumeCheckbox() {
-        new RegistrationPage().clickOnResumeCheckbox();
+        rp.clickOnResumeCheckbox();
     }
 
     @When("I enter phone number {string}")
     public void iEnterPhoneNumber(String phone) {
-        new RegistrationPage().enterPhoneNumber(phone);
+        rp.enterPhoneNumber(phone);
     }
 
     @And("I enter desired job title {string}")
     public void iEnterDesiredJobTitle(String jobTitle) {
-        new RegistrationPage().enterDesiredJobTitle(jobTitle);
+        rp.enterDesiredJobTitle(jobTitle);
     }
 
     @And("I select job type {string}")
     public void iSelectJobType(String type) {
-        new RegistrationPage().jobTypeCheckBox(type);
+        rp.jobTypeCheckBox(type);
     }
 
     @And("I select minimum salary {string} and maximum salary {string}")
     public void iSelectMinimumSalaryAndMaximumSalary(String salMin, String salMax) {
-        new RegistrationPage().selectDesiredSalaryMinAndMax(salMin, salMax);
+        rp.selectDesiredSalaryMinAndMax(salMin, salMax);
     }
 
     @And("I click on on add job title link and enter keyword {string}")
     public void iClickOnOnAddJobTitleLinkAndEnterKeyword(String jobTitle) {
-        new RegistrationPage().clickOnAddJobTitleLink();
-        new RegistrationPage().enterAddJobTitle(jobTitle);
+        rp.clickOnAddJobTitleLink();
+        rp.enterAddJobTitle(jobTitle);
     }
 
     @And("I click on complete button")
     public void iClickOnCompleteButton() {
-        new RegistrationPage().clickOnCompleteButton();
+        rp.clickOnCompleteButton();
     }
 
     @And("I select country from dropdown {string}")
     public void iSelectCountryFromDropdown(String country) {
-        new RegistrationPage().selectCountryFromDropdown(country);
+        rp.selectCountryFromDropdown(country);
     }
 
     @And("I enter city {string}")
     public void iEnterCity(String city) {
-        new RegistrationPage().enterCity(city);
+        rp.enterCity(city);
     }
 
     @Then("I should see text from salary swap{string}")
@@ -174,7 +178,7 @@ public class Register extends Utility {
         try {
             String projectPath = System.getProperty("user.dir");
 
-            new RegistrationPage().upLoadYourResume(projectPath + "/src/test/java/resources/testfiles/" + getURL(path));
+            rp.upLoadYourResume(projectPath + "/src/test/java/resources/testfiles/" + getURL(path));
         } catch (Exception e) {
             e.getMessage();
         }
@@ -187,22 +191,22 @@ public class Register extends Utility {
 
     @And("I enter email address only {string}")
     public void iEnterEmailAddressOnly(String email) {
-        new RegistrationPage().enterEmailAddress(email);
+        rp.enterEmailAddress(email);
     }
 
     @And("I click on first name field")
     public void iClickOnFirstNameField() {
-        new RegistrationPage().clickOnFirstnameField();
+        rp.clickOnFirstnameField();
     }
 
     @Then("I click on register confirm button")
     public void iClickOnRegisterConfirmButton() {
-        new RegistrationPage().clickOnRegisterAndConfirmButton();
+        rp.clickOnRegisterAndConfirmButton();
     }
 
     @Then("I click on register popup close btn")
     public void iClickOnRegisterPopupCloseBtn() {
-        new RegistrationPage().clickOnRegisterAndPopupCloseButton();
+        rp.clickOnRegisterAndPopupCloseButton();
     }
 
     @And("I click on privacy policy link")
