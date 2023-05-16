@@ -7,111 +7,113 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class FastTrackRegister extends Utility {
+    
+    FastTrackRegisterPage ftrp =  new FastTrackRegisterPage();
 
     @Then("I set cookie with {string} and {string}")
     public void iSetCookieWithAnd(String key, String value) {
-        new FastTrackRegisterPage().setCookieWith(key, value);
+        ftrp.setCookieWith(key, value);
     }
 
     @And("I fill candidate email field with random EmailId")
     public void userFillInWithCandidateEmailRandomly() {
         String emailText = generateRandomEmail();
-        new FastTrackRegisterPage().fillEmailField(emailText);
+        ftrp.fillEmailField(emailText);
     }
 
     @And("I fill candidate email with random EmailId")
     public void IFillCandidateEmailWithRandomEmailId() {
         String emailText = generateRandomEmail();
-        new FastTrackRegisterPage().fillEmail(emailText);
+        ftrp.fillEmail(emailText);
     }
 
     @And("I Enters Firstname as {string}")
     public void iEntersFirstnameAs(String firstName) {
-        new FastTrackRegisterPage().fillFirstName(firstName);
+        ftrp.fillFirstName(firstName);
     }
 
     @And("I Enter field Firstname as {string}")
     public void userEntersFieldFirstnameAs(String firstName) {
-        new FastTrackRegisterPage().fillFirstNameField(firstName);
+        ftrp.fillFirstNameField(firstName);
     }
 
     @And("I Enter field Lastname as {string}")
     public void userEntersFieldLastnameAs(String firstName) {
-        new FastTrackRegisterPage().fillLastNameField(firstName);
+        ftrp.fillLastNameField(firstName);
     }
 
     @And("I Enters Lastname as {string}")
     public void userEntersLastnameAs(String lastName) {
-        new FastTrackRegisterPage().fillLastName(lastName);
+        ftrp.fillLastName(lastName);
     }
 
     @Then("I click on Apply now Link")
     public void iClickOnApplyNowLink() {
-        new FastTrackRegisterPage().clickOnApplyButton();
+        ftrp.clickOnApplyButton();
     }
 
     @And("I Enters Password {string}")
     public void iEntersPassword(String password) {
-        new FastTrackRegisterPage().enterPassword(password);
+        ftrp.enterPassword(password);
     }
 
     @And("I Enter field Password as {string}")
     public void userEntersFieldPasswordAs(String password) {
-        new FastTrackRegisterPage().enterPasswordField(password);
+        ftrp.enterPasswordField(password);
     }
 
     @And("I Click on Job Title")
     public void userClickOnJobTitle() {
-        new FastTrackRegisterPage().clickOnJobTitle();
+        ftrp.clickOnJobTitle();
     }
 
     @And("I Click on Link {string}")
     public void IClickOnLink(String arg0) {
-        new FastTrackRegisterPage().clickOnApplyLink();
+        ftrp.clickOnApplyLink();
     }
 
     @Then("I click on More Link")
     public void iClickOnMoreLink() {
-        new FastTrackRegisterPage().clickOnMoreLink();
+        ftrp.clickOnMoreLink();
     }
 
     @And("I switch tab")
     public void iSwitchTab() {
-        new FastTrackRegisterPage().switchToNewTab();
+        ftrp.switchToNewTab();
     }
     @And("I switch tab2")
     public void iSwitchTab2() {
-        new FastTrackRegisterPage().switchToNewTab2();
+        ftrp.switchToNewTab2();
     }
 
     @And("I should see {string}")
     public void iShouldSee(String text) {
-        new FastTrackRegisterPage().verifyTextP(text);
+        ftrp.verifyTextP(text);
     }
 
     @And("I should see message {string}")
     public void iShouldSeeMessage(String text) {
-        new FastTrackRegisterPage().verifyText(text);
+        ftrp.verifyText(text);
     }
 
     @Then("I click on Button Apply now")
     public void iClickOnButtonApplyNow() {
-        new FastTrackRegisterPage().clickOnApplyButton();
+        ftrp.clickOnApplyButton();
     }
 
     @When("I follow Login link")
     public void iFollowLoginLink() {
-        new FastTrackRegisterPage().clickOnLoginLink();
+        ftrp.clickOnLoginLink();
     }
 
     @When("I Click on Create a jobseeker account link")
     public void iclickOnCreateAJobseekerAccount() {
-        new FastTrackRegisterPage().clickOnJobSeeker();
+        ftrp.clickOnJobSeeker();
     }
 
     @And("I Click on Link Register & Apply")
     public void iClickOnLinkRegisterApply() {
-        new FastTrackRegisterPage().clickOnApplyNow();
+        ftrp.clickOnApplyNow();
     }
 
     @And("I follow {string} Link")
@@ -122,22 +124,22 @@ public class FastTrackRegister extends Utility {
     @And("I fill acme candidate email with random EmailId")
     public void iFillAcmeCandidateEmailWithRandomEmailId() {
         String emailText = generateRandomEmail();
-        new FastTrackRegisterPage().fillACMEEmail(emailText);
+        ftrp.fillACMEEmail(emailText);
     }
 
     @And("I Enter acme Firstname as {string}")
     public void iEnterAcmeFirstnameAs(String firstName) {
-        new FastTrackRegisterPage().fillACMEFirstName(firstName);
+        ftrp.fillACMEFirstName(firstName);
     }
 
     @And("I Enter acme Lastname as {string}")
     public void iEnterAcmeLastnameAs(String lastname) {
-        new FastTrackRegisterPage().fillACMELastName(lastname);
+        ftrp.fillACMELastName(lastname);
     }
 
     @And("I Enter acme Password as {string}")
     public void iEnterAcmePasswordAs(String password) {
-        new FastTrackRegisterPage().fillACMEPassword(password);
+        ftrp.fillACMEPassword(password);
     }
 
     @And("I fill in the field where id is {string} with: {string}")
@@ -153,21 +155,21 @@ public class FastTrackRegister extends Utility {
 
     @Then("I follow link containing text {string}")
     public void iFollowLinkContangText(String arg0) {
-        new FastTrackRegisterPage().clickOnMoreLink();
+        ftrp.clickOnMoreLink();
     }
 
     @When("I follow link Login")
     public void iFollowLinkLogin() {
-        new FastTrackRegisterPage().clickOnLoginLink();
+        ftrp.clickOnLoginLink();
     }
 
     @And("I Click on Link Register & Quick Apply")
     public void iClickOnLinkRegisterQuickApply() {
-        new FastTrackRegisterPage().clickOnApplyNow();
+        ftrp.clickOnApplyNow();
     }
 
     @When("I fill candidate email {string}")
     public void iFillCandidateEmail(String email) {
-        new FastTrackRegisterPage().fillEmailField(email);
+        ftrp.fillEmailField(email);
     }
 }
