@@ -8,64 +8,65 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 
 public class ManageUsers extends Utility {
+    ManageUsersPage mup = new ManageUsersPage();
 
     @When("I click on manage users active action one")
     public void iClickOnManageUsersActiveActionOne() {
-        new ManageUsersPage().clickOnManageUsersActiveActionOne();
+        mup.clickOnManageUsersActiveActionOne();
     }
 
     @And("I should see text Deactivate User {string}")
     public void iShouldSeeTextDeactivateUser(String text) {
-        Assert.assertEquals(new ManageUsersPage().verifyTextDeactivateUser(text), text);
+        Assert.assertEquals(mup.verifyTextDeactivateUser(text), text);
     }
 
     @Then("I click to activate the inactive user from the list")
     public void iClickToActivateTheInactiveUserFromTheList() {
-        new ManageUsersPage().clickOnManageUsersInactiveAction();
+        mup.clickOnManageUsersInactiveAction();
     }
 
     @Then("I select {string} from from client")
     public void iSelectFromFromClient(String fromValue) {
-        new ManageUsersPage().selectFromClient(fromValue);
+        mup.selectFromClient(fromValue);
     }
 
     @And("I select {string} from to client")
     public void iSelectFromToClient(String toValue) {
-        new ManageUsersPage().selectToClient(toValue);
+        mup.selectToClient(toValue);
     }
 
     @And("I fill in amount with {string}")
     public void iFillInAmountWith(String amount) {
-        new ManageUsersPage().enterAmount(amount);
+        mup.enterAmount(amount);
     }
 
     @And("I click on Transfer button")
     public void iClickOnTransferButton() {
-        new ManageUsersPage().clickOnTransferButton();
+        mup.clickOnTransferButton();
     }
 
     @When("I enter client email address to reset password")
     public void iEnterClientEmailAddressToResetPassword() {
-        new ManageUsersPage().enterEmailAddressToResetPassword();
+        mup.enterEmailAddressToResetPassword();
     }
 
     @And("I should see button {string}")
     public void iShouldSeeButton(String text) {
-        new ManageUsersPage().verifyButton(text);
+        mup.verifyButton(text);
     }
 
     @And("I should see message {string} in the manage users xpath")
     public void iShouldSeeMessageInTheManageUsersXpath(String text) {
-        new ManageUsersPage().shouldSeeMessageInTheManageUsersXpath(text);
+        mup.shouldSeeMessageInTheManageUsersXpath(text);
     }
 
     @When("I click on Add User button")
     public void iClickOnAddUserButton() {
-        new ManageUsersPage().clickOnAddUserBtn();
+        mup.clickOnAddUserBtn();
     }
 
     @And("I click on Edit User button")
     public void iClickOnEditUserButton() {
-        new ManageUsersPage().clickOnAddUserBtn();
+        mup.clickOnAddUserBtn();
     }
 }
