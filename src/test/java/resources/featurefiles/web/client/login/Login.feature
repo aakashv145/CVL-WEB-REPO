@@ -8,14 +8,14 @@ Feature: Client Login Login
     And   I should see text "Resume library"
     And   I should see text "Job Postings"
 
-  @rejectClientLoginInvalid
+  @rejectClientLoginInvalid @WeAreTestingParallel
   Scenario: Reject Client Login with invalid credentials
     Given I navigate to page "Hiring Login"
     And   I click on "Login as Employer"
     Then  I should see text "Email is required"
     And   I should see text "Password is required"
 
-  @resetClientPasswordLink @ReleaseRegression2
+  @resetClientPasswordLink @ReleaseRegression2 @WeAreTestingParallel
   Scenario: Reset Client Password link
     Given I navigate to page "Hiring Login"
     And   I click on "Forgot password?"
@@ -25,7 +25,7 @@ Feature: Client Login Login
     Then  I should be able to see in browser URL "User Reset Password"
     And   I should see text p tag "We've sent your password reset link to" and verify message "We've sent your password reset link to testers+client@resume-library.com."
 
-  @toggleCandidateLoginIcon
+  @toggleCandidateLoginIcon @WeAreTestingParallel
   Scenario: toggle the candidate login icon
     Given I navigate to page "Hiring Login"
     And   I click on "Jobseeker login"
