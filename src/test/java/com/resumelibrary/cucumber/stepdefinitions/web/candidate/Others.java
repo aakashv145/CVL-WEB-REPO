@@ -115,10 +115,12 @@ public class Others extends Utility {
 
         logger.info("Web page url to load is : " + webab + webabb);
 //          getDriverWithUrl(webab, webab).toString();
-        System.out.println("start url fetching with driver with URL : " +  getDriverWithUrl(webab, webab));
+        System.out.println("start url fetching with driver with URL : ");
         getDriverWithUrl(webab, webab);
-        System.out.println("start url fetching with driver wait contains URL : " +  webDriverWaitContainsUrl(webab));
+        System.out.println("end url fetching with driver with URL : ");
+        System.out.println("start url fetching with driver wait contains URL : ");
         webDriverWaitContainsUrl(webab);
+        System.out.println("end url fetching with driver wait contains URL : ");
 
 
           }
