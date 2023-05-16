@@ -19,6 +19,9 @@ import java.util.*;
 
 public class Others extends Utility {
     OthersPage obj = new OthersPage();
+    FastTrackRegisterPage ftk = new FastTrackRegisterPage();
+    JobSearchPage jsp = new JobSearchPage();
+    DataHelper dh = new DataHelper();
 
     public Others() {
         PageFactory.initElements(getThreadDriver(), this);
@@ -190,7 +193,7 @@ public class Others extends Utility {
 
     @And("I fill in {string} with random candidate email")
     public void iFillInWithRandomCandidateEmail(String id) {
-        fillFieldUsingIdAndText(id, (new DataHelper().getRandomCandidateEmail()));
+        fillFieldUsingIdAndText(id, (dh.getRandomCandidateEmail()));
         waitFor(1);
     }
 
@@ -244,7 +247,7 @@ public class Others extends Utility {
 
     @And("I click on apply now")
     public void iClickOnApplyNow() {
-        new FastTrackRegisterPage().clickOnApplyLinkNow();
+        ftk.clickOnApplyLinkNow();
     }
 
     @And("I click on title of the job")
@@ -279,7 +282,7 @@ public class Others extends Utility {
 
     @When("I click on non external job to apply")
     public void iClickOnNonExternalJobToApply() {
-        new JobSearchPage().selectResultsPerPage("250");
+        jsp.selectResultsPerPage("250");
         obj.clickOnNonExternalApplyNowButton();
     }
 
@@ -403,11 +406,11 @@ public class Others extends Utility {
 
     @And("I should see element with text {string} to be {string}")
     public void iShouldSeeElementWithTextVisibleOrInvisible(String elementText, String condition) {
-        new OthersPage().iShouldSeeElementWithTextVisibleOrInvisible(elementText, condition);
+        obj.iShouldSeeElementWithTextVisibleOrInvisible(elementText, condition);
     }
     @And("I should see element with id {string} to be {string}")
     public void iShouldSeeElementWithIdVisibleOrInvisible(String elementId, String condition) {
-        new OthersPage().iShouldSeeElementWithIdVisibleOrInvisible(elementId, condition);
+        obj.iShouldSeeElementWithIdVisibleOrInvisible(elementId, condition);
     }
     @Then("I click on link text {string}")
     public void iClickOnLinkText(String text) {
