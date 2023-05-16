@@ -110,10 +110,18 @@ public class Others extends Utility {
 
     @Given("I navigate to page {string}")
     public void iNavigateToPage(String url) {
-        logger.info("Web page url to load is : " + WebURLHelper.getWebUrl() + getURL(url));
+        getThreadDriver().toString();
+        System.out.println("start url fetching with driver : " +  getThreadDriver().toString());
+        
+        String webab = WebURLHelper.getWebUrl();
 
-        getDriverWithUrl(WebURLHelper.getWebUrl(), getURL(url));
-        webDriverWaitContainsUrl(getURL(url));
+        String webabb = getURL(url);
+
+        logger.info("Web page url to load is : " + webab + webabb);
+        System.out.println("start url fetching with driver with URL : " +  getDriverWithUrl(webab, webab));
+        getDriverWithUrl(webab, webab);
+        System.out.println("start url fetching with driver wait contains URL : " +  webDriverWaitContainsUrl(webab));
+        webDriverWaitContainsUrl(webab);
 
 
           }
