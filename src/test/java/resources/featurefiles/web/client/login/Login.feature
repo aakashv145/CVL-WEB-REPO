@@ -1,7 +1,7 @@
 @ClientLogin @Regression @Web  @Recruiters
 Feature: Client Login Login
 
-  @clientSuccessfulLogin @ReleaseRegression2 @ClientE2E
+  @clientSuccessfulLogin @ReleaseRegression2 @ClientE2E   @WeAreTestingParallel
   Scenario: Successfully Login as an existing Client
     Given I login as a client
     Then  I should be able to see in browser URL "Client Account"
