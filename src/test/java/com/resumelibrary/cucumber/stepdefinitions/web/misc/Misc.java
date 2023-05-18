@@ -14,6 +14,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 public class Misc extends Utility {
+    
+    MiscPage misobj = new MiscPage();
     public Misc()
     {
         PageFactory.initElements(getThreadDriver(),this);
@@ -33,7 +35,7 @@ public class Misc extends Utility {
 
     @And("I should see text {string}")
     public void iShouldSeeText(String textMessage) {
-        Assert.assertTrue(new MiscPage().shouldSeeText(textMessage),"[---> " + textMessage + " is not displayed <---]");
+        Assert.assertTrue(misobj.shouldSeeText(textMessage),"[---> " + textMessage + " is not displayed <---]");
     }
 
     @And("I should see a text message \"([^\"]*)\"$")
@@ -43,22 +45,22 @@ public class Misc extends Utility {
 
     @When("I click {string} in the footer")
     public void iClickInTheFooter(String link) {
-        new MiscPage().clickLinkInTheFooter(link);
+        misobj.clickLinkInTheFooter(link);
     }
 
     @Then("I should be on {string} page")
     public void iShouldBeOnPage(String page) {
-        new MiscPage().shouldBeOnThePage(page);
+        misobj.shouldBeOnThePage(page);
     }
 
     @When("I click {string} icon in the footer")
     public void iClickIconInTheFooter(String icon) {
-        new MiscPage().clickIconInTheFooter(icon);
+        misobj.clickIconInTheFooter(icon);
     }
 
     @Then("the response code should be {int}")
     public void theResponseCodeShouldBe(int responseCode) {
-        new MiscPage().responseCodeShouldBe(responseCode);
+        misobj.responseCodeShouldBe(responseCode);
     }
 
     @And("I should see text message \"([^\"]*)\"$")
@@ -83,12 +85,12 @@ public class Misc extends Utility {
 
     @Then("I login as a candidate")
     public void iLoginAsACandidate() {
-        new MiscPage().loginAsCandidate();
+        misobj.loginAsCandidate();
     }
 
     @Then("I login as a client")
     public void iLoginAsAClient() {
-        new MiscPage().loginAsClient();
+        misobj.loginAsClient();
     }
 
     @And("I should see H two tag {string} and verify message {string}")
@@ -103,12 +105,12 @@ public class Misc extends Utility {
 
     @And("I should not see {string} footer link")
     public void iShouldNotSeeFooterLink(String link) {
-        new MiscPage().verifyFooterLinksIsDisplay(link);
+        misobj.verifyFooterLinksIsDisplay(link);
     }
 
     @And("I click on I AGREE")
     public void iClickOnIAGREE() {
-        new MiscPage().clickOnIAgreeBtn();
+        misobj.clickOnIAgreeBtn();
     }
 
     @And("I click on Accept All")
@@ -131,7 +133,7 @@ public class Misc extends Utility {
 
     @Given("I login as testers client")
     public void iLoginAsTestersClient() {
-        new MiscPage().loginAsTesterClient();
+        misobj.loginAsTesterClient();
     }
 
     @And("I click on value {string}")
@@ -151,6 +153,6 @@ public class Misc extends Utility {
 
     @Then("I should see file in my download folder {string}")
     public void iShouldSeeFileInMyDownloadFolder(String folderName) {
-        new MiscPage().createFolderAndDelete(folderName);
+        misobj.createFolderAndDelete(folderName);
     }
 }

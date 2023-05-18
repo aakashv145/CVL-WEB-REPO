@@ -54,7 +54,7 @@ public abstract class Utility extends DriverController {
         disableSQLQuery();
     }
 
-    protected abstract <E> List<E> getThreadDriver();
+//    protected abstract <E> List<E> getThreadDriver();
 
     /* Adding DISABLE_DB_PROFILER Cookie*/
     public void disableSQLQuery() {

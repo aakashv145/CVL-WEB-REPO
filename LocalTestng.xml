@@ -8,8 +8,8 @@
 
     <test name="Test1">
         <parameter name="machine" value="Local"/>
-        <!--        <parameter name="browser" value="remoteChromeBrowser"/>-->
-        <parameter name="browser" value="lambdaTestSafari"/>
+                <parameter name="browser" value="remoteChromeBrowser"/>
+<!--        <parameter name="browser" value="lambdaTestSafari"/>-->
         <!--        <parameter name="browser" value="lambdaMobileWebChrome"/>-->
         <!--        <parameter name="browser" value="remoteFirefoxBrowser"/>-->
         <!--        <parameter name="browser" value="firefox"/>-->

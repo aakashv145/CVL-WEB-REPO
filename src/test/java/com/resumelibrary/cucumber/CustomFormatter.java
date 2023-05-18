@@ -34,7 +34,7 @@ public class CustomFormatter extends Utility implements ConcurrentEventListener 
     String GREEN_BOLD_BRIGHT = "\033[1;92m";
     String WHITE_BOLD_BRIGHT = "\033[1;97m";
     List<String> tagNames;
-    Map<String, Object> threadMapObj;
+    ThreadLocal<Map<String,Object>> threadMapObj = new ThreadLocal<>();
     PropertyFileReader propertyFileReader;
 
     static boolean alreadyFileCreated=false;
@@ -65,10 +65,10 @@ public class CustomFormatter extends Utility implements ConcurrentEventListener 
         LOGGER.info("|----------------------------------------------------------------------------------------------------------------------------------|");
         if (!event.getTestCase().getTags().contains("@skip_hooks")) {
             try {
+                threadMapObj.set(new HashMap<>());
                 tagNames = propertyFileReader.getTagNamesFromProperties();
-                threadMapObj = new HashMap<>();
-                threadMapObj.put("runnerClass", System.getProperty("runnerClass"));
-                threadMapObj.put("skipTest", isSkipTest(event.getTestCase().getTags().toString(), tagNames));
+                threadMapObj.get().put("runnerClass", System.getProperty("runnerClass"));
+                threadMapObj.get().put("skipTest", isSkipTest(event.getTestCase().getTags().toString(), tagNames));
                 getDriver(System.getProperty("browserName"), System.getProperty("machineName"), threadMapObj, event.getTestCase().getName());
                 LOGGER.info(RED_BOLD_BRIGHT + "[--->" + GREEN_BACKGROUND + WHITE_BOLD_BRIGHT + "driver created successfully for:" + event.getTestCase().getName() + ANSI_RESET + ANSI_RESET + RED_BOLD_BRIGHT + "<---]" + ANSI_RESET);
 

@@ -27,218 +27,221 @@ import java.util.Map;
 
 public class CloudDriverProvider extends WebDriverProvider implements Constants {
 
-    private static final Logger logger = LogManager.getLogger(CloudDriverProvider.class);
+  private static final Logger logger = LogManager.getLogger(CloudDriverProvider.class);
 
+  public CloudDriverProvider() {
+    PropertyConfigurator.configure(System.getProperty("user.dir") + LOG_PROPERTY_FILE_PATH);
+  }
 
-    public CloudDriverProvider() {
-       PropertyConfigurator.configure(System.getProperty("user.dir") + LOG_PROPERTY_FILE_PATH);
+  void remoteLambdaTestinSafari(ThreadLocal<Map<String, Object>> threadMap, String testName) {
+    try {
+      String username = "shubhamr";
+      String accessKey = "";
+
+      String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
+      String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
+      String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
+      String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
+
+      logger.info("[--->jenkinsBuildNumber = " + buildId + "<---]");
+      String project = "[" + jobBaseName + "-Build:" + buildId + "]";
+      final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
+      logger.info("[--->driverURL:" + driverURL + "<---]");
+      SafariOptions browserOptions = new SafariOptions();
+      browserOptions.setPlatformName("MacOS Ventura");
+      browserOptions.setBrowserVersion("16.0");
+      HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+      ltOptions.put("build", "RL RegressionSafari");
+      ltOptions.put("project", project);
+      ltOptions.put("name", testName);
+      ltOptions.put("console", true);
+      ltOptions.put("visual", true);
+      ltOptions.put("video", true);
+      //   ltOptions.put("selenium_version", "4.1.2");
+      // ltOptions.put("driver_version", "100.0");
+      //ltOptions.put("resolution", "1920x1080");
+      ltOptions.put("network", false);
+      // ltOptions.put("tunnel", true);
+      //  ltOptions.put("tunnelName", "RLWebRegressionTunnel");
+      ltOptions.put("w3c", true);
+
+      browserOptions.setCapability("LT:Options", ltOptions);
+      threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(driverURL), browserOptions));
+      threadLocalMap.set(threadMap.get());
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    void remoteLambdaTestinSafari(Map threadMap, String testName) {
-        try {
-            String username = PropertyFileReader.getInstance().getProperty("lambdaUsername");
-            String accessKey = PropertyFileReader.getInstance().getProperty("lambdaAccessKey");
+  void remoteLambdaTestinChrome(ThreadLocal<Map<String, Object>> threadMap, String testName) {
+    try {
+      String username = System.getProperty("userName");
+      String accessKey = System.getProperty("userkey");
+      ;
 
-            String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
-            String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
-            String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
-            String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
+      String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
+      String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
+      String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
+      String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
 
-            logger.info("[--->jenkinsBuildNumber = " + buildId+"<---]");
-            String project = "[" + jobBaseName + "-Build:" + buildId + "]";
-            final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
-            logger.info("[--->driverURL:" + driverURL+"<---]");
-            SafariOptions browserOptions = new SafariOptions();
-            browserOptions.setPlatformName("MacOS Ventura");
-            browserOptions.setBrowserVersion("16.0");
-            HashMap<String, Object> ltOptions = new HashMap<String, Object>();
-            ltOptions.put("build", "RL Regression[" + jobBaseName + "-Build:" + buildId + "]");
-            ltOptions.put("project", project);
-            ltOptions.put("name", testName);
-            ltOptions.put("console", true);
-            ltOptions.put("visual", true);
-            ltOptions.put("video", true);
-         //   ltOptions.put("selenium_version", "4.1.2");
-           // ltOptions.put("driver_version", "100.0");
-            //ltOptions.put("resolution", "1920x1080");
-            ltOptions.put("network", false);
-            ltOptions.put("tunnel", true);
-            ltOptions.put("tunnelName", "RLWebRegressionTunnel");
-            ltOptions.put("w3c", true);
-          
-            browserOptions.setCapability("LT:Options", ltOptions);
-            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(driverURL), browserOptions));
-            threadLocalMap.set(threadMap);
+      logger.info("[--->jenkinsBuildNumber = " + buildId + "<---]");
+      String project = "[" + jobBaseName + "-Build:" + buildId + "]";
+      final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
+      logger.info("[--->driverURL:" + driverURL + "<---]");
 
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browserName", "Chrome");
+      caps.setCapability("browserVersion", "100.0");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+      ltOptions.put("build", "Chrome updated 4");
+      ltOptions.put("project", project);
+      ltOptions.put("name", testName);
+      ltOptions.put("console", "info");
+      ltOptions.put("visual", true);
+      ltOptions.put("platformName", "Windows 10");
+      ltOptions.put("selenium_version", "4.1.2");
+      ltOptions.put("driver_version", "100.0");
+      ltOptions.put("resolution", "1920x1080");
+      ltOptions.put("network", false);
+      ltOptions.put("tunnel", true);
+      ltOptions.put("idleTimeout", "1800");
+      caps.setCapability("LT:Options", ltOptions);
+      caps.setCapability("tunnelName", "SharedSSH-Aakash");
+      System.out.println("driverURL : " + driverURL);
+      threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
+      threadLocalMap.set(threadMap.get());
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-       void remoteLambdaTestinChrome(Map threadMap, String testName) {
-        try {
-            String username = PropertyFileReader.getInstance().getProperty("lambdaUsername");
-            String accessKey = PropertyFileReader.getInstance().getProperty("lambdaAccessKey");
+  }
 
-            String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
-            String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
-            String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
-            String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
+  void remoteLambdaTestinFirefox(ThreadLocal<Map<String, Object>> threadMap, String testName) {
+    try {
+      String username = PropertyFileReader.getInstance().getProperty("lambdaUsername");
+      String accessKey = PropertyFileReader.getInstance().getProperty("lambdaAccessKey");
 
-            logger.info("[--->jenkinsBuildNumber = " + buildId+"<---]");
-            String project = "[" + jobBaseName + "-Build:" + buildId + "]";
-            final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
-            logger.info("[--->driverURL:" + driverURL+"<---]");
+      String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
+      String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
+      String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
+      String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
 
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability("browserName", "Chrome");
-            caps.setCapability("browserVersion", "100.0");
+      System.out.println("jenkinsBuildNumber = " + buildId);
+      String project = "[" + jobBaseName + "-Build:" + buildId + "]";
+      final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
+      logger.info("[--->driverURL:" + driverURL + "<---]");
 
-            HashMap<String, Object> ltOptions = new HashMap<String, Object>();
-            ltOptions.put("build", new DateTime().hourOfDay().get());
-            ltOptions.put("project", project);
-            ltOptions.put("name", testName);
-            ltOptions.put("console", "info");
-            ltOptions.put("visual", true);
-            ltOptions.put("platformName", "Windows 10");
-            ltOptions.put("selenium_version", "4.1.2");
-            ltOptions.put("driver_version", "100.0");
-            ltOptions.put("resolution", "1920x1080");
-            ltOptions.put("network", false);
-            ltOptions.put("tunnel", true);
-            caps.setCapability("LT:Options", ltOptions);
-            caps.setCapability("tunnelName", "SharedTunnel");
-            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
-            threadLocalMap.set(threadMap);
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browserName", "Firefox");
+      caps.setCapability("browserVersion", "100.0");
 
+      HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+      ltOptions.put("build", "RL Regression[" + jobBaseName + "-Build:" + buildId + "]");
+      ltOptions.put("project", project);
+      ltOptions.put("name", testName);
+      ltOptions.put("console", "info");
+      ltOptions.put("visual", true);
+      ltOptions.put("platformName", "Windows 10");
+      ltOptions.put("selenium_version", "4.1.2");
+      ltOptions.put("driver_version", "v0.31.0");
+      ltOptions.put("resolution", "1920x1080");
+      ltOptions.put("network", false);
+      ltOptions.put("tunnel", true);
+      caps.setCapability("LT:Options", ltOptions);
+      caps.setCapability("tunnelName", "RLWebRegressionTunnel");
+      threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
+      threadLocalMap.set(threadMap.get());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-     void remoteLambdaTestinFirefox(Map threadMap, String testName) {
-        try {
-            String username = PropertyFileReader.getInstance().getProperty("lambdaUsername");
-            String accessKey = PropertyFileReader.getInstance().getProperty("lambdaAccessKey");
+  void remoteBrowserStackChrome(ThreadLocal<Map<String, Object>> threadMap, String testName) {
+    try {
+      String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
+      String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
+      String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
+      String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
 
-            String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
-            String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
-            String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
-            String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
+      logger.info("[--->jenkinsBuildNumber = " + buildId + "<---]");
+      String project = "[" + jobBaseName + "-Build:" + buildId + "]";
 
-            System.out.println("jenkinsBuildNumber = " + buildId);
-            String project = "[" + jobBaseName + "-Build:" + buildId + "]";
-            final String driverURL = "https://" + username + ":" + accessKey + "@hub.lambdatest.com/wd/hub";
-            logger.info("[--->driverURL:" + driverURL+"<---]");
+      String username = PropertyFileReader.getInstance().getProperty("browserStackUsername");
+      String accessKey = PropertyFileReader.getInstance().getProperty("browserStackAccessKey");
+      final String driverURL = "https://" + username + ":" + accessKey + "@hub-scale.browserstack.com/wd/hub";
 
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability("browserName", "Firefox");
-            caps.setCapability("browserVersion", "100.0");
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browserName", "Chrome");
+      caps.setCapability("browserVersion", "100.0");
 
-            HashMap<String, Object> ltOptions = new HashMap<String, Object>();
-            ltOptions.put("build", "RL Regression[" + jobBaseName + "-Build:" + buildId + "]");
-            ltOptions.put("project", project);
-            ltOptions.put("name", testName);
-            ltOptions.put("console", "info");
-            ltOptions.put("visual", true);
-            ltOptions.put("platformName", "Windows 10");
-            ltOptions.put("selenium_version", "4.1.2");
-            ltOptions.put("driver_version", "v0.31.0");
-            ltOptions.put("resolution", "1920x1080");
-            ltOptions.put("network", false);
-            ltOptions.put("tunnel", true);
-            caps.setCapability("LT:Options", ltOptions);
-            caps.setCapability("tunnelName", "RLWebRegressionTunnel");
-            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
-            threadLocalMap.set(threadMap);
+      HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
+      browserstackOptions.put("os", "Windows");
+      browserstackOptions.put("osVersion", "10");
 
+      //for Chrome + Mac
+      //browserstackOptions.put("os", "OS X");
+      //browserstackOptions.put("osVersion", "Big Sur");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      browserStackCommonCapblts(threadMap, project, driverURL, caps, browserstackOptions);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-     void remoteBrowserStackChrome(Map threadMap, String testName) {
-        try {
-            String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
-            String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
-            String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
-            String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
+  void browserStackCommonCapblts(ThreadLocal<Map<String, Object>> threadMap, String buildId, String driverURL,
+    DesiredCapabilities caps, HashMap<String, Object> browserstackOptions) throws MalformedURLException {
 
-            logger.info("[--->jenkinsBuildNumber = " + buildId+"<---]");
-            String project = "[" + jobBaseName + "-Build:" + buildId + "]";
+    browserstackOptions.put("debug", "true");  // for enabling visual logs
+    browserstackOptions.put("consoleLogs",
+      "info");  // to enable console logs at the info level. You can also use other log levels here
+    browserstackOptions.put("networkLogs", "false");  // to enable network logs to be logged
+    browserstackOptions.put("video", "true");
+    browserstackOptions.put("projectName", "rl-selenium-tests");
+    //browserstackOptions.put("seleniumVersion", "4.1.2");
+    browserstackOptions.put("autoWait", "0");
+    browserstackOptions.put("local", "false");
+    browserstackOptions.put("buildName", buildId);
+    caps.setCapability("bstack:options", browserstackOptions);
+    threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
+    threadLocalMap.set(threadMap.get());
+  }
 
-            String username = PropertyFileReader.getInstance().getProperty("browserStackUsername");
-            String accessKey = PropertyFileReader.getInstance().getProperty("browserStackAccessKey");
-            final String driverURL = "https://" + username + ":" + accessKey + "@hub-scale.browserstack.com/wd/hub";
+  void remoteBrowserStackFireFox(ThreadLocal<Map<String, Object>> threadMap, String testName) {
+    try {
+      String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
+      String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
+      String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
+      String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
 
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability("browserName", "Chrome");
-            caps.setCapability("browserVersion", "100.0");
+      logger.info("[--->jenkinsBuildNumber : " + buildId + "<---]");
+      String project = "[" + jobBaseName + "-Build:" + buildId + "]";
 
-            HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
-            browserstackOptions.put("os", "Windows");
-            browserstackOptions.put("osVersion", "10");
+      String username = PropertyFileReader.getInstance().getProperty("browserStackUsername");
+      String accessKey = PropertyFileReader.getInstance().getProperty("browserStackAccessKey");
+      final String driverURL = "https://" + username + ":" + accessKey + "@hub-scale.browserstack.com/wd/hub";
 
-            //for Chrome + Mac
-            //browserstackOptions.put("os", "OS X");
-            //browserstackOptions.put("osVersion", "Big Sur");
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browserName", "Firefox");
+      caps.setCapability("browserVersion", "100.0");
 
-            browserStackCommonCapblts(threadMap, project, driverURL, caps, browserstackOptions);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
+      browserstackOptions.put("os", "Windows");
+      browserstackOptions.put("osVersion", "10");
+
+      //for Firefox + Mac
+      //browserstackOptions.put("os", "OS X");
+      //browserstackOptions.put("osVersion", "Big Sur");
+
+      browserStackCommonCapblts(threadMap, project, driverURL, caps, browserstackOptions);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-      void browserStackCommonCapblts(Map threadMap, String buildId, String driverURL, DesiredCapabilities caps, HashMap<String, Object> browserstackOptions) throws MalformedURLException {
-
-        browserstackOptions.put("debug", "true");  // for enabling visual logs
-        browserstackOptions.put("consoleLogs", "info");  // to enable console logs at the info level. You can also use other log levels here
-        browserstackOptions.put("networkLogs", "false");  // to enable network logs to be logged
-        browserstackOptions.put("video", "true");
-        browserstackOptions.put("projectName", "rl-selenium-tests");
-        //browserstackOptions.put("seleniumVersion", "4.1.2");
-        browserstackOptions.put("autoWait", "0");
-        browserstackOptions.put("local", "false");
-        browserstackOptions.put("buildName", buildId);
-        caps.setCapability("bstack:options", browserstackOptions);
-        threadMap.put("webdriverObj", new RemoteWebDriver(new URL(driverURL), caps));
-        threadLocalMap.set(threadMap);
-    }
-
-     void remoteBrowserStackFireFox(Map threadMap, String testName) {
-        try {
-            String buildIdFromConfig = PropertyFileReader.getInstance().getProperty("lambdaStackBuildId");
-            String buildId = WebURLHelper.getParameterFromEnvOrSysParam("BUILD_NUMBER", buildIdFromConfig);
-            String jobnameFromConfig = PropertyFileReader.getInstance().getProperty("jobname");
-            String jobBaseName = WebURLHelper.getParameterFromEnvOrSysParam("JOB_BASE_NAME", jobnameFromConfig);
-
-            logger.info("[--->jenkinsBuildNumber : " + buildId+"<---]");
-            String project = "[" + jobBaseName + "-Build:" + buildId + "]";
-
-            String username = PropertyFileReader.getInstance().getProperty("browserStackUsername");
-            String accessKey = PropertyFileReader.getInstance().getProperty("browserStackAccessKey");
-            final String driverURL = "https://" + username + ":" + accessKey + "@hub-scale.browserstack.com/wd/hub";
-
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability("browserName", "Firefox");
-            caps.setCapability("browserVersion", "100.0");
-
-            HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
-            browserstackOptions.put("os", "Windows");
-            browserstackOptions.put("osVersion", "10");
-
-            //for Firefox + Mac
-            //browserstackOptions.put("os", "OS X");
-            //browserstackOptions.put("osVersion", "Big Sur");
-
-            browserStackCommonCapblts(threadMap, project, driverURL, caps, browserstackOptions);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public String getConstantsURL(String URL) {
-        return null;
-    }
+  public String getConstantsURL(String URL) {
+    return null;
+  }
 }

@@ -23,7 +23,7 @@ public class WebDriverProvider implements Constants {
     private static final Logger logger = LogManager.getLogger(WebDriverProvider.class);
     public static ThreadLocal<Map<String,Object>> threadLocalMap = new ThreadLocal<>();
 
-    static void headLessChromeBrowser(Map threadMap) {
+    static void headLessChromeBrowser(ThreadLocal<Map<String,Object>>  threadMap) {
         ChromeOptions options = new ChromeOptions();
         Map<String, Object> prefs = new HashMap<String, Object>();
         prefs.put("download.prompt_for_download", false);
@@ -32,11 +32,11 @@ public class WebDriverProvider implements Constants {
         options.addArguments("--headless");
         WebDriverManager.chromedriver().setup();
         // driver = new ChromeDriver(options);
-        threadMap.put("webdriverObj", new ChromeDriver(options));
-        threadLocalMap.set(threadMap);
+        threadMap.get().put("webdriverObj", new ChromeDriver(options));
+        threadLocalMap.set(threadMap.get());
     }
 
-    void headLessFirefoxBrowser(Map threadMap) {
+    void headLessFirefoxBrowser(ThreadLocal<Map<String,Object>>  threadMap) {
         FirefoxOptions options = new FirefoxOptions();
         options.addPreference("browser.download.folderList", 2);
         options.addPreference("download.default_directory", "/tmp");
@@ -47,11 +47,11 @@ public class WebDriverProvider implements Constants {
         options.addArguments("--headless");
         WebDriverManager.firefoxdriver().setup();
         // driver = new ChromeDriver(options);
-        threadMap.put("webdriverObj", new FirefoxDriver(options));
-        threadLocalMap.set(threadMap);
+        threadMap.get().put("webdriverObj", new FirefoxDriver(options));
+        threadLocalMap.set(threadMap.get());
     }
 
-    static void edgeBrowser(Map threadMap) {
+    static void edgeBrowser(ThreadLocal<Map<String,Object>> threadMap) {
         EdgeOptions options = new EdgeOptions();
         Map<String, Object> prefs = new HashMap<String, Object>();
         prefs.put("download.prompt_for_download", false);
@@ -59,10 +59,10 @@ public class WebDriverProvider implements Constants {
         options.setExperimentalOption("prefs", prefs);
         WebDriverManager.edgedriver().setup();
         //  driver = new ChromeDriver(options);
-        threadMap.put("webdriverObj", new EdgeDriver(options));
-        threadLocalMap.set(threadMap);
+        threadMap.get().put("webdriverObj", new EdgeDriver(options));
+        threadLocalMap.set(threadMap.get());
     }
-    static void chromeBrowser(Map threadMap) {
+    static void chromeBrowser(ThreadLocal<Map<String,Object>>  threadMap) {
         ChromeOptions options = new ChromeOptions();
         Map<String, Object> prefs = new HashMap<String, Object>();
         prefs.put("download.prompt_for_download", false);
@@ -70,11 +70,11 @@ public class WebDriverProvider implements Constants {
         options.setExperimentalOption("prefs", prefs);
         WebDriverManager.chromedriver().setup();
         //  driver = new ChromeDriver(options);
-        threadMap.put("webdriverObj", new ChromeDriver(options));
-        threadLocalMap.set(threadMap);
+        threadMap.get().put("webdriverObj", new ChromeDriver(options));
+        threadLocalMap.set(threadMap.get());
     }
 
-    static void firefoxBrowser(Map threadMap) {
+    static void firefoxBrowser(ThreadLocal<Map<String,Object>>  threadMap) {
         FirefoxOptions options = new FirefoxOptions();
         options.addPreference("browser.download.folderList", 2);
         options.addPreference("download.default_directory", "/tmp");
@@ -84,11 +84,11 @@ public class WebDriverProvider implements Constants {
         // options.addPreference("pdfjs.disabled", true);
         WebDriverManager.firefoxdriver().setup();
         // driver = new FirefoxDriver(options);
-        threadMap.put("webdriverObj", new FirefoxDriver(options));
-        threadLocalMap.set(threadMap);
+        threadMap.get().put("webdriverObj", new FirefoxDriver(options));
+        threadLocalMap.set(threadMap.get());
     }
 
-    void remoteFirefoxBrowser(String machineName, Map threadMap) {
+    void remoteFirefoxBrowser(String machineName, ThreadLocal<Map<String,Object>>  threadMap) {
         try {
             FirefoxOptions options = new FirefoxOptions();
             options.addPreference("browser.download.folderList", 2);
@@ -105,26 +105,26 @@ public class WebDriverProvider implements Constants {
                         if (remoteMachine.equals(STAGING_1)) {
                             remoteMachineUrl = STAGING_HOST_1;
                             logger.info("[--->Creating remote firefox driver in the machin: " + remoteMachine + " :rl-staging-web-php01<---]");
-                            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         } else if (remoteMachine.equals(STAGING_2)) {
                             remoteMachineUrl = STAGING_HOST_2;
                             logger.info("[--->Creating remote firefox driver in the machine: " + remoteMachine + " :rl-staging-web02<---]");
-                            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         }
                     }
                 case STAGING_2:
                     logger.info("[--->Creating remote firefox driver in the machine: " + machineName + " :rl-staging-web02<---]");
-                    threadMap.put("webdriverObj", new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
                     break;
                 case "Local":
                     logger.info("[--->Creating firefox driver in the machine: " + machineName+"<---]");
-                    threadMap.put("webdriverObj", new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
                     break;
             }
 
@@ -133,7 +133,7 @@ public class WebDriverProvider implements Constants {
         }
     }
 
-    void remoteChromeBrowser(String machineName, Map threadMap) {
+    void remoteChromeBrowser(String machineName, ThreadLocal<Map<String,Object>>  threadMap) {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--window-size=1920,1080");
@@ -150,27 +150,27 @@ public class WebDriverProvider implements Constants {
                         if (remoteMachine.equals(STAGING_1)) {
                             remoteMachineUrl = STAGING_HOST_1;
                             logger.info("[--->Creating remote chrome driver in the machine: " + remoteMachine + " :rl-staging-web-php01<---]");
-                            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         } else if (remoteMachine.equals(STAGING_2)) {
                             remoteMachineUrl = STAGING_HOST_2;
                             logger.info("[--->Creating remote chrome driver in the machine===>: " + remoteMachine + " :rl-staging-web02<---]");
-                            threadMap.put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         }
                     }
                 case STAGING_2:
                     logger.info("[--->Creating remote chrome driver in the machine===>: " + machineName + " :rl-staging-web02<---]");
 
-                    threadMap.put("webdriverObj", new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
                     break;
                 case "Local":
                     logger.info("[--->Creating chrome driver in the machine: " + machineName+"<---]");
-                    threadMap.put("webdriverObj", new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj", new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
                     break;
             }
         } catch (MalformedURLException e) {
@@ -178,7 +178,7 @@ public class WebDriverProvider implements Constants {
         }
     }
 
-    void remoteEdgeBrowser(String machineName,Map threadMap) {
+    void remoteEdgeBrowser(String machineName,ThreadLocal<Map<String,Object>>  threadMap) {
         try {
             EdgeOptions options = new EdgeOptions();
             Map<String, Object> prefs = new HashMap<String, Object>();
@@ -195,29 +195,29 @@ public class WebDriverProvider implements Constants {
                             remoteMachineUrl = STAGING_HOST_1;
                             System.out.println("Creating remote edge driver in the machine===>: " + remoteMachine + " :rl-staging-web-php01");
                             //tlDriver.set(new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadMap.put("webdriverObj",new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj",new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         } else if (remoteMachine.equals(STAGING_2)) {
                             remoteMachineUrl = STAGING_HOST_2;
                             System.out.println("Creating remote edge driver in the machine===>: " + remoteMachine + " :rl-staging-web02");
                             //  tlDriver.set(new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadMap.put("webdriverObj",new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
-                            threadLocalMap.set(threadMap);
+                            threadMap.get().put("webdriverObj",new RemoteWebDriver(new URL(remoteMachineUrl + ":4444/wd/hub"), options));
+                            threadLocalMap.set(threadMap.get());
                             break;
                         }
                     }
                 case STAGING_2:
                     System.out.println("Creating remote edge driver in the machine===>: " + machineName + " :rl-staging-web02");
                     //  tlDriver.set(new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
-                    threadMap.put("webdriverObj",new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj",new RemoteWebDriver(new URL(STAGING_HOST_2 + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
                     break;
                 case "Local":
                     System.out.println("Creating edge driver in the machine: " + machineName);
                     // tlDriver.set(new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
-                    threadMap.put("webdriverObj",new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
-                    threadLocalMap.set(threadMap);
+                    threadMap.get().put("webdriverObj",new RemoteWebDriver(new URL(LOCAL_HOST + ":4444/wd/hub"), options));
+                    threadLocalMap.set(threadMap.get());
 
                     break;
             }

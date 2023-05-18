@@ -32,7 +32,7 @@ public class DriverController extends CloudDriverProvider implements Constants {
         PropertyConfigurator.configure(System.getProperty("user.dir") + LOG_PROPERTY_FILE_PATH);
     }
 
-    public void getDriver(String browserName, String machineName, Map threadMap, String testName) {
+    public void getDriver(String browserName, String machineName, ThreadLocal<Map<String,Object>> threadMap, String testName) {
 
         switch (browserName) {
             case "chrome":

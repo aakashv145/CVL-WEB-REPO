@@ -18,6 +18,10 @@ import org.testng.Assert;
 import java.util.*;
 
 public class Others extends Utility {
+    OthersPage obj = new OthersPage();
+    FastTrackRegisterPage ftk = new FastTrackRegisterPage();
+    JobSearchPage jsp = new JobSearchPage();
+    DataHelper dh = new DataHelper();
 
     public Others() {
         PageFactory.initElements(getThreadDriver(), this);
@@ -27,63 +31,63 @@ public class Others extends Utility {
 
     @When("I click Send Request button")
     public void iClickSendRequestButton() {
-        new OthersPage().clickSendRequestButton();
+        obj.clickSendRequestButton();
     }
 
     @And("I fill in Email address with {string}")
     public void iFillInEmailAddressWith(String text) {
-        new OthersPage().fillInEmailAddressWith(text);
+        obj.fillInEmailAddressWith(text);
     }
 
     @Then("I fill in Email address with random client email")
     public void iFillInEmailAddressWithRandomClientEmail() {
-        new OthersPage().fillInRandomClientEmailAddress();
+        obj.fillInRandomClientEmailAddress();
     }
 
     @And("I fill in Message")
     public void iFillInMessage() {
-        new OthersPage().fillInMessage();
+        obj.fillInMessage();
     }
 
     @And("I select the option {string} from Request")
     public void iSelectTheOptionFromRequest(String text) {
-        new OthersPage().selectTheOptionFromRequest(text);
+        obj.selectTheOptionFromRequest(text);
     }
 
     @And("I fill in Name")
     public void iFillInName() {
-        new OthersPage().fillInName();
+        obj.fillInName();
     }
 
     @When("I click Login button")
     public void iClickLoginButton() {
-        new OthersPage().clickLoginButton();
+        obj.clickLoginButton();
     }
 
     @Then("I click Employer login")
     public void iClickEmployerLogin() {
-        new OthersPage().clickEmployerLogin();
+        obj.clickEmployerLogin();
     }
 
     @When("I find value {string} and store as a variable")
     public void iFindValueAndStoreAsAVariable(String value) {
-        new OthersPage().findValueAndStoreAsVariable();
+        obj.findValueAndStoreAsVariable();
     }
 
     @And("I get cookie value with name {string} and store as a variable")
     public void iGetCookieValueWithNameAndStoreAsAVariable(String cookieName) {
-        new OthersPage().getCookieValueWithNameAndStoreAsAVariable();
+        obj.getCookieValueWithNameAndStoreAsAVariable();
     }
 
     @And("I compare both variable to verify its not the same")
     public void iCompareBothVariableToVerifyItsNotTheSame() {
-        Assert.assertFalse(new OthersPage().compareBothVariableToVerifyItsNotTheSame(),"[---> Both csrf token are same <---]");
+        Assert.assertFalse(obj.compareBothVariableToVerifyItsNotTheSame(),"[---> Both csrf token are same <---]");
         logger.info("Currently both csrf_rl are not same and it should not match!");
     }
 
     @When("I click on Register button")
     public void iClickOnRegisterButton() {
-        new OthersPage().clickRegisterButton();
+        obj.clickRegisterButton();
     }
 
     @And("I wait for {string} seconds")
@@ -107,11 +111,8 @@ public class Others extends Utility {
     @Given("I navigate to page {string}")
     public void iNavigateToPage(String url) {
         logger.info("Web page url to load is : " + WebURLHelper.getWebUrl() + getURL(url));
-
         getDriverWithUrl(WebURLHelper.getWebUrl(), getURL(url));
         webDriverWaitContainsUrl(getURL(url));
-
-
           }
 
     @Given("I browse the url {string}")
@@ -141,17 +142,17 @@ public class Others extends Utility {
 
     @Then("I should be able to see in browser URL {string}")
     public void iShouldBeAbleToSeeInBrowserURL(String url) {
-        new OthersPage().verifyURLText(url,"");
+        obj.verifyURLText(url,"");
     }
 
     @Then("I should be able to see in browser obfuscated URL {string}")
     public void iShouldBeAbleToSeeInBrowserObfuscatedURL(String url) {
-        new OthersPage().verifyURLText(url,"assets");
+        obj.verifyURLText(url,"assets");
     }
 
     @Then("I should be able to see in browser as URL {string}")
     public void iShouldBeAbleToSeeInBrowserAsURL(String url) {
-        new OthersPage().verifyURL(url);
+        obj.verifyURL(url);
     }
 
     @Then("I should be able to see {string} in browser url")
@@ -159,7 +160,7 @@ public class Others extends Utility {
         if (getBrowserName().contains("firefox") || getBrowserName().contains("remoteFirefoxBrowser")) {
             waitFor(2);
         }
-        new OthersPage().verifyTextInURL(textInUrl);
+        obj.verifyTextInURL(textInUrl);
     }
 
     @Then("I click on id {string}")
@@ -189,7 +190,7 @@ public class Others extends Utility {
 
     @And("I fill in {string} with random candidate email")
     public void iFillInWithRandomCandidateEmail(String id) {
-        fillFieldUsingIdAndText(id, (new DataHelper().getRandomCandidateEmail()));
+        fillFieldUsingIdAndText(id, (dh.getRandomCandidateEmail()));
         waitFor(1);
     }
 
@@ -228,47 +229,47 @@ public class Others extends Utility {
 
     @And("I click on send application button")
     public void iClickOnSendApplicationButton() {
-        new OthersPage().clickOnSendApplicationButton();
+        obj.clickOnSendApplicationButton();
     }
 
     @Then("I click on modify profile link")
     public void iClickOnModifyProfileLink() {
-        new OthersPage().clickOnModifyProfileLink();
+        obj.clickOnModifyProfileLink();
     }
 
     @And("I mouse hover to users profile")
     public void iMouseHoverToUsersProfile() {
-        new OthersPage().mouseHoverToUsersProfile();
+        obj.mouseHoverToUsersProfile();
     }
 
     @And("I click on apply now")
     public void iClickOnApplyNow() {
-        new FastTrackRegisterPage().clickOnApplyLinkNow();
+        ftk.clickOnApplyLinkNow();
     }
 
     @And("I click on title of the job")
     public void iClickOnTitleOfTheJob() {
-        new OthersPage().clickOnJobTitleFromSearchPage();
+        obj.clickOnJobTitleFromSearchPage();
     }
 
     @And("I click on apply now job view page")
     public void iClickOnApplyNowJobViewPage() {
-        new OthersPage().clickOnJobViewApplyNowButton();
+        obj.clickOnJobViewApplyNowButton();
     }
 
     @And("I should see text with id hide expired application {string}")
     public void iShouldSeeTextWithIdHideExpiredApplication(String text) {
-        Assert.assertEquals(new OthersPage().getTextFromElement(), text);
+        Assert.assertEquals(obj.getTextFromElement(), text);
     }
 
     @And("I click on View button")
     public void iClickOnViewButton() {
-        new OthersPage().clickOnViewApplicationButton();
+        obj.clickOnViewApplicationButton();
     }
 
     @When("I click on job title applied link")
     public void iClickOnJobTitleAppliedLink() {
-        new OthersPage().clickOnJobTitleAppliedLink();
+        obj.clickOnJobTitleAppliedLink();
     }
 
     @And("I click on {string}")
@@ -278,8 +279,8 @@ public class Others extends Utility {
 
     @When("I click on non external job to apply")
     public void iClickOnNonExternalJobToApply() {
-        new JobSearchPage().selectResultsPerPage("250");
-        new OthersPage().clickOnNonExternalApplyNowButton();
+        jsp.selectResultsPerPage("250");
+        obj.clickOnNonExternalApplyNowButton();
     }
 
     @And("I move backward one page")
@@ -362,7 +363,7 @@ public class Others extends Utility {
 
     @When("I find a non external job to apply for")
     public void iFindANonExternalJobToApplyFor() {
-        new OthersPage().clickOnNonExternalApplyNowButton();
+        obj.clickOnNonExternalApplyNowButton();
     }
 
     @And("I should see text h two tag {string} and verify message {string}")
@@ -397,16 +398,16 @@ public class Others extends Utility {
 
     @Then("I should be able to see in browser http URL {string}")
     public void iShouldBeAbleToSeeInBrowserHttpURL(String url) {
-        new OthersPage().verifyHTTPURLText(url);
+        obj.verifyHTTPURLText(url);
     }
 
     @And("I should see element with text {string} to be {string}")
     public void iShouldSeeElementWithTextVisibleOrInvisible(String elementText, String condition) {
-        new OthersPage().iShouldSeeElementWithTextVisibleOrInvisible(elementText, condition);
+        obj.iShouldSeeElementWithTextVisibleOrInvisible(elementText, condition);
     }
     @And("I should see element with id {string} to be {string}")
     public void iShouldSeeElementWithIdVisibleOrInvisible(String elementId, String condition) {
-        new OthersPage().iShouldSeeElementWithIdVisibleOrInvisible(elementId, condition);
+        obj.iShouldSeeElementWithIdVisibleOrInvisible(elementId, condition);
     }
     @Then("I click on link text {string}")
     public void iClickOnLinkText(String text) {

@@ -20,8 +20,8 @@ public class CustomListener extends Utility implements ITestListener, IExecution
     public void onExecutionStart() {
         tunnelObject=new ArrayList<Tunnel>();
         boolean flag=false;
-        String username = PropertyFileReader.getInstance().getProperty("lambdaUsername");
-        String accessKey = PropertyFileReader.getInstance().getProperty("lambdaAccessKey");
+        String username = "";
+        String accessKey = "";
         int noOfTunnels = Integer.parseInt(WebURLHelper.getParameterFromEnvOrSysParam("TUNNELS", PropertyFileReader.getInstance().getProperty("nooftunnels")));
         for(int j=0;j<noOfTunnels;j++){
 
@@ -72,33 +72,33 @@ public class CustomListener extends Utility implements ITestListener, IExecution
         }
     }
 
-    @Override
-    public void onFinish(ITestContext arg0) {
-
-    }
-    @Override
-    public void onStart(ITestContext context) {
-    }
-
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult arg0) {
-    }
-
-    @Override
-    public void onTestFailure(ITestResult arg0) {
-    }
-
-    @Override
-    public void onTestSkipped(ITestResult arg0) {
-    }
-
-    @Override
-    public void onTestStart(ITestResult arg0) {
-    }
-
-    @Override
-    public void onTestSuccess(ITestResult arg0) {
-    }
+//    @Override
+//    public void onFinish(ITestContext arg0) {
+//
+//    }
+//    @Override
+//    public void onStart(ITestContext context) {
+//    }
+//
+//    @Override
+//    public void onTestFailedButWithinSuccessPercentage(ITestResult arg0) {
+//    }
+//
+//    @Override
+//    public void onTestFailure(ITestResult arg0) {
+//    }
+//
+//    @Override
+//    public void onTestSkipped(ITestResult arg0) {
+//    }
+//
+//    @Override
+//    public void onTestStart(ITestResult arg0) {
+//    }
+//
+//    @Override
+//    public void onTestSuccess(ITestResult arg0) {
+//    }
 
     public synchronized boolean startTunnel(Map options) {
         boolean flag = false;
@@ -107,9 +107,9 @@ public class CustomListener extends Utility implements ITestListener, IExecution
                 Thread.sleep(1000L);
             }
             Tunnel t=new Tunnel();
-                flag = t.start(options);
+//                flag = t.start(options);
             if(flag) {
-                tunnelObject.add(t);
+//                tunnelObject.add(t);
             }
         }catch (Exception e){
             flag=false;

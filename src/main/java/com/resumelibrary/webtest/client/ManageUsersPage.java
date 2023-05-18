@@ -101,6 +101,9 @@ public class ManageUsersPage extends Utility {
     }
 
     public void enterEmailAddressToResetPassword() {
+        System.out.println("start get data helper : DataHelper.getTestClientEmail()" + getThreadDriver().toString());
+        String clientEmail = DataHelper.getTestClientEmail();
+        System.out.println("end get data helper : DataHelper.getTestClientEmail()" );
         logger.info("Entered email address " + DataHelper.getTestClientEmail());
         ResetEmailAddress.sendKeys(DataHelper.getTestClientEmail());
     }
